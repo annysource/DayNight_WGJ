@@ -5,57 +5,49 @@ using TMPro;
 
 public class ScreenOrientationHandler : MonoBehaviour
 {
-
     public SpriteRenderer background;
-    public TextMeshProUGUI orientationText, desorientationText;
+    public TextMeshProUGUI orientationText;
+    public Inventario inventario;
+    public UIInventario uiInventario;
     private ScreenOrientation currentOrientation;
 
-    public Color dayColor = Color.yellow;
-    public Color nightColor = Color.blue;
+    public GameObject day, night;
+    
+
     void Start()
     {
         currentOrientation = Screen.orientation;
-        UpdateOrientationText();
+        UpdateOrientarionAndInventory();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        int currentHour = System.DateTime.Now.Hour;
         // Verifica se a orientação mudou
         if (Screen.orientation != currentOrientation)
         {
             currentOrientation = Screen.orientation;
-            UpdateOrientationText();
-        }
-
-        if (currentHour >= 6 && currentHour < 18)
-        {
-            orientationText.text = "Bom dia!";
-        }
-        else
-        {
-            orientationText.text = "Boa Noite!";
+            UpdateOrientarionAndInventory();
         }
     }
 
-    void UpdateOrientationText()
+    void UpdateOrientarionAndInventory()
     {
         if (currentOrientation == ScreenOrientation.LandscapeLeft)
         {
-            //orientationText.text = "Bom dia!";
-            background.color = dayColor;
-            desorientationText.text = "Eita, está claro!";
+            day.SetActive(true);
+            night.SetActive(false);
+            orientationText.text = "Bom dia!";
+            inventario.isDia = true;
         }
         else if (currentOrientation == ScreenOrientation.LandscapeRight)
         {
-            //  orientationText.text = "Boa Noite!";
-            desorientationText.text = "Eita, escureceu!";
-            background.color = nightColor;
+            night.SetActive(true);
+            day.SetActive(false);
+            orientationText.text = "Boa Noite!";
+            inventario.isDia = false;
         }
-        else
-        {
-            //orientationText.text = "Other Orientation";
-        }
+
+        // Atualiza o inventário com base na orientação
+        uiInventario.AtualizarInventario();
     }
 }
