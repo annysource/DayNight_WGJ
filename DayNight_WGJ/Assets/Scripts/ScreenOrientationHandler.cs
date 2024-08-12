@@ -29,7 +29,7 @@ public class ScreenOrientationHandler : MonoBehaviour
             UpdateOrientarionAndInventory();
         }
     }
-
+  
     void UpdateOrientarionAndInventory()
     {
         if (currentOrientation == ScreenOrientation.LandscapeLeft)
